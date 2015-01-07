@@ -10,6 +10,7 @@ The plugin library must be installed separately.
 In a Meteor app directory, enter:
 
 ```bash
+$ meteor add comerc:bs-typeahead
 $ meteor add aldeed:autoform
 ```
 
@@ -34,7 +35,8 @@ In the schema, which will then work with a `quickForm` or `afQuickFields`:
     autoform: {
       type: "typeahead",
       afFieldInput: {
-        multiple: true
+        typeaheadOptions: {},
+        typeaheadDatasets: {}
       }
     }
   }
@@ -44,11 +46,11 @@ In the schema, which will then work with a `quickForm` or `afQuickFields`:
 Or on the `afFieldInput` component or any component that passes along attributes to `afFieldInput`:
 
 ```js
-{{> afQuickField name="tags" type="typeahead" multiple=true}}
+{{> afQuickField name="tags" type="typeahead"}}
 
-{{> afFormGroup name="tags" type="typeahead" multiple=true}}
+{{> afFormGroup name="tags" type="typeahead"}}
 
-{{> afFieldInput name="tags" type="typeahead" multiple=true}}
+{{> afFieldInput name="tags" type="typeahead"}}
 ```
 
 To provide typeahead options, set a `typeaheadOptions` attribute equal to a helper that returns the options object. Most of the `data-` attributes that the plugin recognizes should also work.
