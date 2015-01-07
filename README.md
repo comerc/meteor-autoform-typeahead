@@ -23,7 +23,7 @@ $ meteor add comerc:autoform-typeahead
 
 ## Usage
 
-Specify "selectize" for the `type` attribute of any input. This can be done in a number of ways:
+Specify "typeahead" for the `type` attribute of any input. This can be done in a number of ways:
 
 In the schema, which will then work with a `quickForm` or `afQuickFields`:
 
