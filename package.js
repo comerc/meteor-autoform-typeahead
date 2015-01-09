@@ -1,7 +1,7 @@
 Package.describe({
   name: 'comerc:autoform-typeahead',
   summary: 'Custom "typeahead" input type for AutoForm',
-  version: '1.0.0',
+  version: '1.0.1',
   git: 'https://github.com/comerc/meteor-autoform-typeahead.git'
 });
 

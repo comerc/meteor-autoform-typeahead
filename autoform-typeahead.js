@@ -40,7 +40,7 @@ AutoForm.addInputType("typeahead", {
 Template.afTypeahead.helpers({
   atts: function () {
     var atts = _.clone(this.atts);
-    atts.class = "twitter-typeahead form-control";
+    atts = AutoForm.Utility.addClass(atts, "twitter-typeahead form-control");
     delete atts.typeaheadOptions;
     delete atts.typeaheadDatasets;
     return atts;
