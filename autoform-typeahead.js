@@ -49,38 +49,54 @@ Template.afTypeahead.helpers({
 
 Template.afTypeahead.rendered = function () {
   // instanciate typeahead
-  var substringMatcher = function(strs) {
-    return function findMatches(q, cb) {
-      var matches, substrRegex;
-      // an array that will be populated with substring matches
-      matches = [];
-      // regex used to determine if a string contains the substring `q`
-      substrRegex = new RegExp(q, 'i');
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function(i, str) {
-        if (substrRegex.test(str.value)) {
-          // the typeahead jQuery plugin expects suggestions to a
-          // JavaScript object, refer to typeahead docs for more info
-          matches.push({ value: str.value });
+  var atts = this.data.atts
+  var TAOptions = atts.typeaheadOptions  || {highlight: true}
+  var defOpt = {
+    name: 'selectOptions',
+    displayKey: 'label',
+    options: {
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: this.data.selectOptions,
+    }
+  }
+
+  var DS = atts.typeaheadDatasets || [{}]
+  if (! (DS instanceof Array))
+    DS = [DS]
+
+  var Datasets = _.map(DS, function (bh) {
+    if (bh.displayKey) {
+      var tk = Bloodhound.tokenizers.obj.whitespace(bh.displayKey)
+      if (! bh.options || ! bh.options.datumTokenizer) {
+        /* deep _.extend is broken */
+        bh.options = _.extend (_.clone(defOpt.options), { datumTokenizer: tk})
+      }
+    }
+    return _.extend (_.clone(defOpt), bh)
+  })
+
+  _.each (Datasets, function (bh) {
+    var matcher = new Bloodhound(bh.options)
+    delete bh.options
+
+    matcher.initialize()
+    bh.source = matcher.ttAdapter()
+    if (TAOptions.templates)
+      bh.templates = bh.templates || _.clone(TAOptions.templates)
+    if (bh.templates) /* render Blaze templates if any */
+      _.each (bh.templates, function (v, k){
+        if (!v || typeof v === "string")
+          return
+
+        var template = v /* scope */
+        bh.templates[k] = function (data) {
+          return Blaze.toHTMLWithData(template, data)
         }
-      });
-      cb(matches);
-    };
-  };
-  var options = {
-    highlight: true
-  };
-  if (this.data.atts.typeaheadOptions) {
-    _.extend(options, this.data.atts.typeaheadOptions);
-  }
-  var datasets = {
-    source: substringMatcher(this.data.selectOptions)
-  };
-  if (this.data.atts.typeaheadDatasets) {
-    _.extend(datasets, this.data.atts.typeaheadDatasets);
-  }
-  this.$('.twitter-typeahead').typeahead(options, datasets);
+      })
+  })
+
+  var e = this.$('.twitter-typeahead').typeahead(TAOptions, Datasets)
 };
 
 Template.afTypeahead.destroyed = function () {
