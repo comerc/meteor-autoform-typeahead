@@ -57,6 +57,8 @@ To provide typeahead options, set a `typeaheadOptions` attribute equal to a help
 
 ## Basic Usage
 
+You may use `autoform.options` (instead of `typeaheadDatasets`) like this example:
+
 ```js
 {
   tags: {
