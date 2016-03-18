@@ -55,6 +55,23 @@ Or on the `afFieldInput` component or any component that passes along attributes
 
 To provide typeahead options, set a `typeaheadOptions` attribute equal to a helper that returns the options object. Most of the `data-` attributes that the plugin recognizes should also work.
 
+## Basic Usage
+
+```js
+{
+  tags: {
+    type: String,
+    autoform: {
+      type: "typeahead",
+      options: {
+        'value1': 'label1',
+        'value2': 'label2'
+      }
+    }
+  }
+}
+```
+
 ## Demo
 
 [Live](http://autoform.meteor.com/types)
