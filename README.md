@@ -31,7 +31,7 @@ In the schema, which will then work with a `quickForm` or `afQuickFields`:
 ```js
 {
   tags: {
-    type: [String],
+    type: String,
     autoform: {
       type: "typeahead",
       afFieldInput: {
