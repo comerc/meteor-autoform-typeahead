@@ -84,5 +84,5 @@ Template.afTypeahead.rendered = function () {
 };
 
 Template.afTypeahead.destroyed = function () {
-  $('.twitter-typeahead').typeahead('destroy');
+  this.$('.twitter-typeahead').typeahead('destroy');
 };
